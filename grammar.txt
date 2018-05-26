@@ -1,0 +1,11 @@
+query : from_stmt statement* EOF
+
+statement : from_stmt | join_stmt | select_stmt
+from_stmt : FROM IDENTIFIER IN var_access
+join_stmt : JOIN IDENTIFIER IN var_access ON var_access EQUALS var_access
+where_stmt : WHERE condition
+path_stmt : PATH STRING
+
+condition : lvalue (EQ | NEQ | GT | LT | GTE | LTE) lvalue
+var_access : IDENTIFIER (DOT IDENTIFIER)*
+lvalue : var_access | NUMBER | STRING
