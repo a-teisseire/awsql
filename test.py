@@ -1,5 +1,3 @@
-import awsql
-
 instances = [
     {
         "InstanceId": 1234,
@@ -93,10 +91,12 @@ test_query = """
 from i in instances
 where i.VpcId != 123
 join sub in subnets on i.SubnetId equals sub.SubnetId
-path "[*].{id: i.InstanceId, name: i.Tags[?Key=='Name'].Value | [0], subnet_id: sub.SubnetId, subnet_name: sub.Tags[?Key=='Name'].Value | [0]}"
+select "{id: i.InstanceId, name: i.Tags[?Key=='Name'].Value | [0], subnet_id: sub.SubnetId, subnet_name: sub.Tags[?Key=='Name'].Value | [0]}"
 """
 
-i = awsql.Interpreter(test_query)
+import parser
+
+i = parser.Interpreter(test_query)
 i.add_local("instances", instances)
 i.add_local("subnets", subnets)
 print(i.run())

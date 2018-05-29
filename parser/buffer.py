@@ -1,20 +1,3 @@
-def grab(data, keys, default=None, raiser=False):
-    if isinstance(keys, str):
-        keys = keys.split(".")
-
-    obj = data
-    for k in keys:
-        if k not in obj:
-            if raiser:
-                raise IndexError()
-
-            return default
-
-        obj = obj[k]
-    else:
-        return obj
-
-
 class Buffer(object):
     def __init__(self, content: str):
         self.content = content

@@ -1,0 +1,7 @@
+from vpc in ec2.vpcs
+join outer left inst in ec2.instances on vpc.VpcId equals inst.VpcId
+select "{
+    id: vpc.VpcId,
+    name: get_tag(vpc, 'Name'),
+    instances: inst.InstanceId
+}"

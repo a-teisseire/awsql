@@ -1,0 +1,10 @@
+from t in ec2.instances
+join v in ec2.vpcs on t.VpcId equals v.VpcId
+where t.InstanceType == "t2.micro"
+select "{
+    id: t.InstanceId, 
+    name: get_tag(t, 'Name'), 
+    type: t.InstanceType, 
+    state: t.State.Name, 
+    vpc: v.VpcId, vpc_name: get_tag(v, 'Name')
+}"
