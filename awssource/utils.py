@@ -1,4 +1,5 @@
 import jmespath
+import itertools
 
 class LazyList(object):
     def __init__(self):
@@ -29,3 +30,8 @@ class LazyListFetcher(LazyList):
 
 def create_list(func, path):
     return LazyListFetcher(lambda: jmespath.search(path, func()))
+
+def create_paginated_list(client, action, path):
+    paginator = client.get_paginator(action)
+    return LazyListFetcher(lambda: list(paginator.paginate().search(path)))
+    #return LazyListFetcher(lambda: itertools.chain.from_iterable([jmespath.search(path, x) for x in paginator.paginate()))

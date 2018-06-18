@@ -1,0 +1,6 @@
+from zone in route53.hosted_zones
+select "{
+    name: zone.Name,
+    id: zone.Id,
+    private: zone.Config.PrivateZone
+}"

@@ -15,13 +15,13 @@ EQ, NEQ, GT, LT, GTE, LTE = (
 )
 
 # PUNCTUATION
-DOT, EOF = (
-    'DOT', 'EOF'
+DOT, COMMA, LSQB, RSQB, EOF = (
+    'DOT', 'COMMA', 'LSQB', 'RSQB', 'EOF'
 )
 
 # KEYWORDS
-FROM, IN, JOIN, INNER, OUTER, LEFT, RIGHT, ON, EQUALS, WHERE, SELECT = (
-    'FROM', 'IN', 'JOIN', 'INNER', 'OUTER', 'LEFT', 'RIGHT', 'ON', 'EQUALS', 'WHERE', 'SELECT'
+FROM, IN, JOIN, INNER, OUTER, LEFT, RIGHT, ON, EQUALS, WHERE, SELECT, GROUP, BY, INTO = (
+    'FROM', 'IN', 'JOIN', 'INNER', 'OUTER', 'LEFT', 'RIGHT', 'ON', 'EQUALS', 'WHERE', 'SELECT', 'GROUP', 'BY', 'INTO'
 )
 
 KEYWORDS = [
@@ -35,7 +35,10 @@ KEYWORDS = [
     ON,
     EQUALS,
     WHERE,
-    SELECT
+    SELECT,
+    GROUP,
+    BY,
+    INTO
 ]
 
 class Token(object):

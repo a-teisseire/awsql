@@ -2,6 +2,8 @@ from jmespath import functions
 
 
 class JMESPathFunctions(functions.Functions):
+    """Helper methods to add to the JMESPath interpreter."""
+
     @functions.signature({'types': ['object']}, {'types': ['string']})
     def _func_get_tag(self, data, key):
         try:
@@ -16,6 +18,8 @@ class JMESPathFunctions(functions.Functions):
 
 
 class InterpreterError(Exception):
+    """InterpreterError is an Exception type that contains the location of the error."""
+
     def __init__(self, message, loc):
         super().__init__(message)
         self.loc = loc
@@ -30,6 +34,8 @@ class InterpreterError(Exception):
 
 
 def grab(data, path, default=None, raiser=False):
+    """Grabs a value in nested dictionaries."""
+
     if isinstance(path, str):
         keys = path.split(".")
     else:

@@ -23,6 +23,18 @@ class Query(object):
         self.result = list(filter(predicate, self.result))
         return self
 
+    def GroupBy(self, keys_selectors, result_func):
+        tmp = {}
+
+        for item in self.result:
+            key = tuple([s(item) for s in keys_selectors])
+            
+            if key not in tmp:
+                tmp[key] = []
+
+        self.result = [result_func(x, y) for x, y in tmp.items()]
+        return self
+
     def Join(self, rhs, lhs_selector, rhs_selector, result_func, join_type=JoinType.INNER, direction=JoinDirection.LEFT):
         new_result = []
 
@@ -58,4 +70,3 @@ class Query(object):
 
     def Result(self):
         return self.result
-

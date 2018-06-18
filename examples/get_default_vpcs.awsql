@@ -1,7 +1,8 @@
 from vpc in ec2.vpcs
+where vpc.IsDefault == true
 join outer left inst in ec2.instances on vpc.VpcId equals inst.VpcId
+group by vpc.VpcId into g
 select "{
-    id: vpc.VpcId,
-    name: get_tag(vpc, 'Name'),
-    instances: inst.InstanceId
+    id: g.VpcId,
+    instances: g.group[].{id: inst.InstanceId, type: inst.InstanceType}
 }"

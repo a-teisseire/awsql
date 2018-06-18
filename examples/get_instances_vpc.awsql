@@ -1,6 +1,5 @@
 from t in ec2.instances
 join v in ec2.vpcs on t.VpcId equals v.VpcId
-where t.InstanceType == "t2.micro"
 select "{
     id: t.InstanceId, 
     name: get_tag(t, 'Name'), 

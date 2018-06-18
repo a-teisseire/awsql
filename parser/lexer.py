@@ -1,4 +1,5 @@
 from .buffer import Buffer
+from typing import Iterable
 from .tokens import *
 
 class Lexer(object):
@@ -8,10 +9,10 @@ class Lexer(object):
         self.line_pos = 0
         self.token_begin = 0
 
-    def make_token(self, ttype, value):
+    def make_token(self, ttype, value) -> Token:
         return Token(ttype, value, self.cur_line, self.line_pos - self.token_begin)
 
-    def identifier(self):
+    def identifier(self) -> str:
         ident = ""
         while self.buf.current is not None and (self.buf.current.isalnum() or self.buf.current == '_'):
             ident += self.buf.current
@@ -19,7 +20,7 @@ class Lexer(object):
 
         return ident
 
-    def number(self):
+    def number(self) -> str:
         num = ""
         while self.buf.current is not None and (self.buf.current.isdigit() or self.buf.current == '.'):
             num += self.buf.current
@@ -28,7 +29,7 @@ class Lexer(object):
         return num
         #return float(num) if '.' in num else int(num)
 
-    def string(self):
+    def string(self) -> str:
         val = ""
         ignore_next = False
 
@@ -51,7 +52,7 @@ class Lexer(object):
 
         return val
 
-    def tokens(self):
+    def tokens(self) -> Iterable[Token]:
         while True:
             t = self.get_next_token()
             yield t
@@ -60,7 +61,7 @@ class Lexer(object):
                 raise StopIteration()
 
 
-    def get_next_token(self):
+    def get_next_token(self) -> Token:
         while self.buf.current is not None:
             c = self.buf.current
 
@@ -114,6 +115,18 @@ class Lexer(object):
             elif c == '.':
                 self.buf.inc()
                 return self.make_token(DOT, '.')
+
+            elif c == '[':
+                self.buf.inc()
+                return self.make_token(LSQB, '[')
+
+            elif c == ']':
+                self.buf.inc()
+                return self.make_token(RSQB, ']')
+
+            elif c == ',':
+                self.buf.inc()
+                return self.make_token(COMMA, ',')
 
             # Skip spaces
             elif c.isspace():

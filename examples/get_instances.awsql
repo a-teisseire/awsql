@@ -1,0 +1,8 @@
+from inst in ec2.instances
+select "{
+    id: inst.InstanceId,
+    type: inst.InstanceType,
+    state: inst.State.Name,
+    name: get_tag(inst, 'Name'),
+    account_id: account.id
+}"
